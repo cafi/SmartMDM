@@ -34,11 +34,25 @@ import React from 'react';
 const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean }) => {
   const pathname = usePathname();
 
+  const isActive = (href?: string) => {
+    if (!href) return false;
+    if (href === '/dashboard') return pathname === href;
+    return pathname.startsWith(href);
+  };
+  
+  const hasActiveChild = (children?: NavItem[]): boolean => {
+    if (!children) return false;
+    return children.some(child => isActive(child.href) || hasActiveChild(child.children));
+  };
+
   if (item.children) {
     if (isMobile) {
       return (
         <div className="flex flex-col space-y-2">
-          <span className="font-semibold">{item.label}</span>
+          <span className={cn(
+            "font-semibold",
+            hasActiveChild(item.children) ? 'text-primary' : ''
+          )}>{item.label}</span>
           {item.children.map((child) => (
             <NavLink key={child.label} item={child} isMobile={isMobile} />
           ))}
@@ -49,7 +63,10 @@ const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="text-sm font-medium">
+          <Button variant="ghost" className={cn(
+            "text-sm font-medium",
+            hasActiveChild(item.children) ? 'text-primary' : 'text-muted-foreground'
+          )}>
             {item.label}
             <ChevronDown className="ml-1 h-4 w-4" />
           </Button>
@@ -58,14 +75,14 @@ const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean
           {item.children.map((child, index) =>
             child.children ? (
               <DropdownMenuSub key={index}>
-                <DropdownMenuSubTrigger>
+                <DropdownMenuSubTrigger className={cn(hasActiveChild(child.children) ? "text-primary bg-accent" : "")}>
                   {child.icon && <child.icon className="mr-2 h-4 w-4" />}
                   <span>{child.label}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
                   {child.children.map((subChild, subIndex) => (
                     <DropdownMenuItem key={subIndex} asChild>
-                      <Link href={subChild.href || '#'}>
+                      <Link href={subChild.href || '#'} className={cn(isActive(subChild.href) ? "text-primary" : "")}>
                         {subChild.icon && (
                           <subChild.icon className="mr-2 h-4 w-4" />
                         )}
@@ -77,7 +94,7 @@ const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean
               </DropdownMenuSub>
             ) : (
               <DropdownMenuItem key={index} asChild>
-                <Link href={child.href || '#'}>
+                <Link href={child.href || '#'} className={cn(isActive(child.href) ? "text-primary" : "")}>
                   {child.icon && <child.icon className="mr-2 h-4 w-4" />}
                   {child.label}
                 </Link>
@@ -95,7 +112,7 @@ const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean
       className={cn(
         'text-sm font-medium transition-colors hover:text-primary',
         isMobile ? 'block w-full text-left py-2' : 'px-3 py-2',
-        pathname === item.href ? 'text-primary' : 'text-muted-foreground'
+        isActive(item.href) ? 'text-primary' : 'text-muted-foreground'
       )}
     >
       {item.label}
@@ -114,7 +131,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
       <div className="container flex h-14 items-center px-4 md:px-6">
-        <div className="flex items-center">
+        <div className="mr-auto flex items-center">
             <Link
                 href="/dashboard"
                 className="flex items-center space-x-2"
@@ -126,13 +143,13 @@ export function Header() {
             </Link>
         </div>
         
-        <nav className="hidden items-center gap-1 md:flex ml-6">
+        <nav className="hidden items-center gap-1 md:flex">
           {navigation.map((item) => (
             <NavLink key={item.label} item={item} />
           ))}
         </nav>
 
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex flex-1 items-center justify-end ml-auto">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="mr-2 md:hidden">
