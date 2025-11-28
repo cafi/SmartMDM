@@ -26,9 +26,10 @@ type AddCustomerFormValues = z.infer<typeof formSchema>;
 
 interface AddCustomerFormProps {
   onSubmit: (values: AddCustomerFormValues) => void;
+  onCancel: () => void;
 }
 
-export function AddCustomerForm({ onSubmit }: AddCustomerFormProps) {
+export function AddCustomerForm({ onSubmit, onCancel }: AddCustomerFormProps) {
   const form = useForm<AddCustomerFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,6 +56,7 @@ export function AddCustomerForm({ onSubmit }: AddCustomerFormProps) {
           )}
         />
         <DialogFooter>
+            <Button type="button" variant="ghost" onClick={onCancel}>Cancelar</Button>
             <Button type="submit">Salvar</Button>
         </DialogFooter>
       </form>
