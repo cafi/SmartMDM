@@ -2,8 +2,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 
 export default function Page() {
     return (
-        <div className="container mx-auto p-4 md:p-8">
-            <Card>
+        <div className="p-4 md:p-8">
+            <Card className="w-full">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold font-headline">SuperUser: Clientes</CardTitle>
                     <CardDescription>Gerenciamento de clientes da plataforma.</CardDescription>
