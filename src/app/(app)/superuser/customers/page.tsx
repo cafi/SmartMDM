@@ -101,7 +101,7 @@ export default function Page() {
                 <TableRow key={customer.id}>
                   <TableCell className="font-medium">{customer.id}</TableCell>
                   <TableCell>{customer.name}</TableCell>
-                  <TableCell className="hidden md:table-cell">{new Date(customer.createdAt).toLocaleDateString()}</TableCell>
+                  <TableCell className="hidden md:table-cell">{new Date(customer.createdAt).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</TableCell>
                   <TableCell className="text-right">
                     <Badge variant={customer.status === 'active' ? 'secondary' : 'outline'}>
                       {customer.status === 'active' ? 'Ativo' : 'Inativo'}
