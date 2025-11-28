@@ -133,31 +133,29 @@ export function Header() {
         </nav>
 
         <div className="flex items-center justify-end ml-auto">
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="mr-2">
-                  <Menu className="h-4 w-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left">
-                <nav className="grid gap-6 text-lg font-medium">
-                  <Link
-                    href="/dashboard"
-                    className="flex items-center gap-2 text-lg font-semibold"
-                  >
-                    <GanttChartSquare className="h-6 w-6 text-primary" />
-                    <span className="font-bold font-headline">Smart MDM</span>
-                  </Link>
-                  <div className="flex flex-col space-y-4">
-                    {navigation.map((item) => (
-                        <NavLink key={item.label} item={item} isMobile />
-                    ))}
-                  </div>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="mr-2 md:hidden">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <nav className="grid gap-6 text-lg font-medium">
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-2 text-lg font-semibold"
+                >
+                  <GanttChartSquare className="h-6 w-6 text-primary" />
+                  <span className="font-bold font-headline">Smart MDM</span>
+                </Link>
+                <div className="flex flex-col space-y-4">
+                  {navigation.map((item) => (
+                      <NavLink key={item.label} item={item} isMobile />
+                  ))}
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
