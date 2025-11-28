@@ -1,3 +1,10 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "login-background",
+      "description": "A modern corporate office setting with natural light.",
+      "imageUrl": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb3Jwb3JhdGUlMjBvZmZpY2V8ZW58MHx8fHwxNzY0MzYwNjQ4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "corporate office"
+    }
+  ]
 }
