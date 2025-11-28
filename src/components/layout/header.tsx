@@ -51,7 +51,7 @@ const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="text-sm font-medium">
             {item.label}
-            <ChevronDown className="ml-2 h-4 w-4" />
+            <ChevronDown className="ml-1 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
@@ -114,21 +114,50 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
       <div className="container flex h-14 items-center px-4 md:px-6">
-        <Link
-          href="/dashboard"
-          className="mr-6 flex items-center space-x-2"
-        >
-          <GanttChartSquare className="h-6 w-6 text-primary" />
-          <span className="hidden font-bold sm:inline-block font-headline">
-            Smart MDM
-          </span>
-        </Link>
-        <nav className="hidden flex-1 items-center gap-4 md:flex">
+        <div className="flex items-center">
+            <Link
+                href="/dashboard"
+                className="flex items-center space-x-2"
+            >
+                <GanttChartSquare className="h-6 w-6 text-primary" />
+                <span className="hidden font-bold sm:inline-block font-headline">
+                Smart MDM
+                </span>
+            </Link>
+        </div>
+        
+        <nav className="hidden flex-1 items-center gap-1 md:flex ml-6">
           {navigation.map((item) => (
             <NavLink key={item.label} item={item} />
           ))}
         </nav>
-        <div className="flex flex-1 items-center justify-end gap-4">
+
+        <div className="flex items-center justify-end ml-auto">
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="mr-2">
+                  <Menu className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <nav className="grid gap-6 text-lg font-medium">
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 text-lg font-semibold"
+                  >
+                    <GanttChartSquare className="h-6 w-6 text-primary" />
+                    <span className="font-bold font-headline">Smart MDM</span>
+                  </Link>
+                  <div className="flex flex-col space-y-4">
+                    {navigation.map((item) => (
+                        <NavLink key={item.label} item={item} isMobile />
+                    ))}
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -165,31 +194,6 @@ export function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-4 w-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left">
-                <nav className="grid gap-6 text-lg font-medium">
-                  <Link
-                    href="/dashboard"
-                    className="flex items-center gap-2 text-lg font-semibold"
-                  >
-                    <GanttChartSquare className="h-6 w-6 text-primary" />
-                    <span className="font-bold font-headline">Smart MDM</span>
-                  </Link>
-                  <div className="flex flex-col space-y-4">
-                    {navigation.map((item) => (
-                        <NavLink key={item.label} item={item} isMobile />
-                    ))}
-                  </div>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
       </div>
     </header>
