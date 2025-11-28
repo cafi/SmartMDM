@@ -29,7 +29,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { NavItem, navigation } from '@/lib/navigation';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean }) => {
   const pathname = usePathname();
@@ -122,6 +122,11 @@ const NavLink = ({ item, isMobile = false }: { item: NavItem, isMobile?: boolean
 
 export function Header() {
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
   const handleLogout = () => {
     // In a real app, you'd clear the user session
@@ -150,29 +155,31 @@ export function Header() {
         </nav>
 
         <div className="flex flex-1 items-center justify-end ml-auto">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="mr-2 md:hidden">
-                <Menu className="h-4 w-4" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <nav className="grid gap-6 text-lg font-medium">
-                <Link
-                  href="/dashboard"
-                  className="flex items-center gap-2 text-lg font-semibold"
-                >
-                  <GanttChartSquare className="h-6 w-6 text-primary" />
-                  <span className="font-bold font-headline">Smart MDM</span>
-                </Link>
-                <div className="flex flex-col space-y-4">
-                  {navigation.map((item) => (
-                      <NavLink key={item.label} item={item} isMobile />
-                  ))}
-                </div>
-              </nav>
-            </SheetContent>
-          </Sheet>
+          {isClient && (
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="mr-2 md:hidden">
+                  <Menu className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <nav className="grid gap-6 text-lg font-medium">
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 text-lg font-semibold"
+                  >
+                    <GanttChartSquare className="h-6 w-6 text-primary" />
+                    <span className="font-bold font-headline">Smart MDM</span>
+                  </Link>
+                  <div className="flex flex-col space-y-4">
+                    {navigation.map((item) => (
+                        <NavLink key={item.label} item={item} isMobile />
+                    ))}
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
