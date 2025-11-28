@@ -126,13 +126,13 @@ export function Header() {
             </Link>
         </div>
         
-        <nav className="hidden flex-1 items-center gap-1 md:flex ml-6">
+        <nav className="hidden items-center gap-1 md:flex ml-6">
           {navigation.map((item) => (
             <NavLink key={item.label} item={item} />
           ))}
         </nav>
 
-        <div className="flex items-center justify-end ml-auto">
+        <div className="flex flex-1 items-center justify-end">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="mr-2 md:hidden">
